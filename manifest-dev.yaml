@@ -6,7 +6,7 @@ metadata:
 spec:
   generators:
     - git:
-        repoURL: https://github.com/ptrchv/test_application
+        repoURL: https://github.com/ptrchv/test_gitops
         revision: main
         directories:
           - path: environments/dev/pr-*
