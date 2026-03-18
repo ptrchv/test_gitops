@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: challenge-test
+  namespace: argocd
+spec:
+  destination:
+    name: test
+    namespace: challenge-app
+  project: default
+  sources:
+  - repoURL: ghcr.io/ptrchv
+    targetRevision: 0.1.1
+    chart: test_application/challenge-app-chart
+    helm:
+      valueFiles:
+        - $values/environments/test/values.yaml
+  - repoURL: https://github.com/ptrchv/test_gitops
+    targetRevision: main
+    ref: values
+  syncPolicy:
+    automated:
+      enabled: true
+      prune: true
+      selfHeal: true

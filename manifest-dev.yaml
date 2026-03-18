@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: challenge-dev
+  namespace: argocd
+spec:
+  generators:
+    - git:
+        repoURL: https://github.com/ptrchv/test_application
+        revision: main
+        directories:
+          - path: environments/dev/pr-*
+  template:
+    metadata:
+      name: challenge-dev-{{path.basename}}
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io
+    spec:
+      project: default
+      destination:
+        name: dev
+        namespace: "{{path.basename}}"
+      sources:
+        - repoURL: ghcr.io/ptrchv
+          targetRevision: 0.1.1
+          chart: test_application/challenge-app-chart
+          helm:
+            valueFiles:
+              - $values/{{path}}/values.yaml
+        - repoURL: https://github.com/ptrchv/test_gitops
+          targetRevision: main
+          ref: values
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
