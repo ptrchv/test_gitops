@@ -1,6 +1,0 @@
-namespace: pr-2
-deploymentName: challenge-app-pr-2
-serviceName: challenge-app-pr-2
-image:
-  repository: ghcr.io/ptrchv/test_application
-  tag: a6912829929edf0e3d51b96069f3016cdda95bbf
